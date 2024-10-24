@@ -10,6 +10,7 @@ import com.sky.dto.EmployeeDTO;
 import com.sky.dto.EmployeeLoginDTO;
 import com.sky.dto.EmployeePageQueryDTO;
 import com.sky.entity.Employee;
+import com.sky.exception.AccountLockedException;
 import com.sky.exception.AccountNotFoundException;
 import com.sky.exception.PasswordErrorException;
 import com.sky.mapper.EmployeeMapper;
@@ -56,7 +57,8 @@ public class EmployeeServiceImpl implements EmployeeService {
         }
 
         if (employee.getStatus() == StatusConstant.DISABLE) {
-            //账号被锁定throw new AccountLockedException(MessageConstant.ACCOUNT_LOCKED);
+            //账号被锁定
+            throw new AccountLockedException(MessageConstant.ACCOUNT_LOCKED);
         }
 
         //3、返回实体对象
@@ -113,6 +115,8 @@ public class EmployeeServiceImpl implements EmployeeService {
         Employee employee = Employee.builder()
                 .id(id)
                 .status(status)
+                .updateTime(LocalDateTime.now())
+                .updateUser(BaseContext.getCurrentId())
                 .build();
         employeeMapper.update(employee);
     }

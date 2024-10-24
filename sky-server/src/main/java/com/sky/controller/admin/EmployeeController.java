@@ -133,6 +133,11 @@ public class EmployeeController {
     }
 
 
+    /**
+     * 修改员工信息
+     * @param employeeDTO
+     * @return
+     */
     @PutMapping
     @ApiOperation("修改员工信息")
     public Result<String> update(@RequestBody EmployeeDTO employeeDTO) {
